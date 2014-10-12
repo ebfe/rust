@@ -485,7 +485,9 @@ fn run_debuginfo_gdb_test(config: &Config, props: &TestProps, testfile: &Path) {
             // write debugger script
             let mut script_str = String::with_capacity(2048);
 
-            script_str.push_str("set charset UTF-8\n");
+            if cfg!(not(target_os = "freebsd")) {
+                script_str.push_str("set charset UTF-8\n");
+            }
             script_str.push_str("show version\n");
 
             match config.gdb_version {
